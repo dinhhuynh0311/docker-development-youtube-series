@@ -28,16 +28,16 @@ Start with instance 1:
 ```
 cd storage/databases/postgresql/3-replication
 
-docker run -it --rm --name postgres-1 `
---net postgres `
--e POSTGRES_USER=postgresadmin `
--e POSTGRES_PASSWORD=admin123 `
--e POSTGRES_DB=postgresdb `
--e PGDATA="/data" `
--v ${PWD}/postgres-1/pgdata:/data `
--v ${PWD}/postgres-1/config:/config `
--v ${PWD}/postgres-1/archive:/mnt/server/archive `
--p 5000:5432 `
+docker run -it --rm --name postgres-1 \
+--net postgresql \
+-e POSTGRES_USER=postgresadmin \
+-e POSTGRES_PASSWORD=admin123 \
+-e POSTGRES_DB=postgresdb \
+-e PGDATA="/data" \
+-v ${PWD}/postgres-1/pgdata:/data \
+-v ${PWD}/postgres-1/config:/config \
+-v ${PWD}/postgres-1/archive:/mnt/server/archive \
+-p 5000:5432 \
 postgres:15.0 -c 'config_file=/config/postgresql.conf'
 ```
 
@@ -92,9 +92,9 @@ Note that we also mount our blank data directory as we will make a new backup in
 ```
 cd storage/databases/postgresql/3-replication
 
-docker run -it --rm `
---net postgres `
--v ${PWD}/postgres-2/pgdata:/data `
+docker run -it --rm \
+--net postgresql \
+-v ${PWD}/postgres-2/pgdata:/data \
 --entrypoint /bin/bash postgres:15.0
 ```
 
@@ -111,16 +111,16 @@ Now we should see PostgreSQL data ready for our second instance in `${PWD}/postg
 ```
 cd storage/databases/postgresql/3-replication
 
-docker run -it --rm --name postgres-2 `
---net postgres `
--e POSTGRES_USER=postgresadmin `
--e POSTGRES_PASSWORD=admin123 `
--e POSTGRES_DB=postgresdb `
--e PGDATA="/data" `
--v ${PWD}/postgres-2/pgdata:/data `
--v ${PWD}/postgres-2/config:/config `
--v ${PWD}/postgres-2/archive:/mnt/server/archive `
--p 5001:5432 `
+docker run -it --rm --name postgres-2 \
+--net postgresql \
+-e POSTGRES_USER=postgresadmin \
+-e POSTGRES_PASSWORD=admin123 \
+-e POSTGRES_DB=postgresdb \
+-e PGDATA="/data" \
+-v ${PWD}/postgres-2/pgdata:/data \
+-v ${PWD}/postgres-2/config:/config \
+-v ${PWD}/postgres-2/archive:/mnt/server/archive \
+-p 5001:5432 \
 postgres:15.0 -c 'config_file=/config/postgresql.conf'
 ```
 
